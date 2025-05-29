@@ -566,7 +566,7 @@ const EHSManagement = () => {
                 </div>
                 <div>
                   <div className="flex justify-between mb-2">
-                    <span className="text-sm font-medium">Reduzir Taxa de Frequência para < 1.0</span>
+                    <span className="text-sm font-medium">Reduzir Taxa de Frequência para &lt; 1.0</span>
                     <span className="text-sm text-orange-600">1.2</span>
                   </div>
                   <Progress value={83} className="h-2" />
