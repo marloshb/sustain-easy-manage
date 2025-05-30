@@ -81,6 +81,8 @@ const Index = () => {
         return <RiskManagement />;
       case 'ai-insights':
         return <AIInsights />;
+      case 'audit-inspection':
+        return <AuditInspectionModule />;
       default:
         return <DashboardOverview />;
     }
