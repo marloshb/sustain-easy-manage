@@ -1,47 +1,65 @@
 
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import DashboardOverview from '@/components/dashboard/DashboardOverview';
 import EnvironmentalManagement from '@/components/modules/EnvironmentalManagement';
 import EHSManagement from '@/components/modules/EHSManagement';
 import ESGManagement from '@/components/modules/ESGManagement';
+import ComplianceModule from '@/components/modules/ComplianceModule';
+import DataCollectionModule from '@/components/modules/DataCollectionModule';
+import GISIntegration from '@/components/modules/GISIntegration';
+import RiskManagement from '@/components/modules/RiskManagement';
+import AIInsights from '@/components/modules/AIInsights';
 import Navigation from '@/components/layout/Navigation';
-import { Leaf, Shield, TrendingUp, AlertTriangle, CheckCircle, Clock } from 'lucide-react';
+import { Leaf, Shield, TrendingUp, AlertTriangle, CheckCircle, Clock, Activity, Brain } from 'lucide-react';
 
 const Index = () => {
   const [activeModule, setActiveModule] = useState('dashboard');
 
   const stats = [
     {
-      title: "Conformidade ESG",
-      value: "94%",
-      change: "+2.1%",
+      title: "Conformidade Global",
+      value: "96%",
+      change: "+3.2%",
       icon: CheckCircle,
       color: "text-green-600"
     },
     {
-      title: "Incidentes EHS",
-      value: "3",
-      change: "-23%",
+      title: "Riscos Críticos",
+      value: "4",
+      change: "-35%",
       icon: AlertTriangle,
       color: "text-orange-600"
     },
     {
       title: "Emissões CO2 (t)",
-      value: "2,847",
-      change: "-8.4%",
+      value: "2,654",
+      change: "-12.8%",
       icon: Leaf,
       color: "text-green-600"
     },
     {
-      title: "Auditorias Pendentes",
-      value: "7",
-      change: "+1",
-      icon: Clock,
+      title: "Score ESG",
+      value: "87",
+      change: "+4.5%",
+      icon: TrendingUp,
       color: "text-blue-600"
+    },
+    {
+      title: "Dias sem Acidentes",
+      value: "127",
+      change: "+127",
+      icon: Shield,
+      color: "text-green-600"
+    },
+    {
+      title: "Alertas IA",
+      value: "8",
+      change: "+3",
+      icon: Brain,
+      color: "text-purple-600"
     }
   ];
 
@@ -53,6 +71,16 @@ const Index = () => {
         return <EHSManagement />;
       case 'esg':
         return <ESGManagement />;
+      case 'compliance':
+        return <ComplianceModule />;
+      case 'data-collection':
+        return <DataCollectionModule />;
+      case 'gis':
+        return <GISIntegration />;
+      case 'risk':
+        return <RiskManagement />;
+      case 'ai-insights':
+        return <AIInsights />;
       default:
         return <DashboardOverview />;
     }
@@ -66,31 +94,31 @@ const Index = () => {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            Plataforma ESG/EHS/Gestão Ambiental
+            Plataforma ESG/EHS/Gestão Ambiental Integrada
           </h1>
           <p className="text-lg text-gray-600">
-            Sistema integrado de gestão ambiental, saúde e segurança ocupacional
+            Sistema integrado com GIS e IA para gestão completa de sustentabilidade
           </p>
         </div>
 
-        {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {/* Enhanced Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-8">
           {stats.map((stat, index) => (
             <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
-              <CardContent className="p-6">
+              <CardContent className="p-4">
                 <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600 mb-1">
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-medium text-gray-600 mb-1 truncate">
                       {stat.title}
                     </p>
-                    <p className="text-2xl font-bold text-gray-900">
+                    <p className="text-lg font-bold text-gray-900">
                       {stat.value}
                     </p>
-                    <p className={`text-sm ${stat.change.startsWith('+') ? 'text-green-600' : stat.change.startsWith('-') ? 'text-red-600' : 'text-gray-600'}`}>
-                      {stat.change} vs. mês anterior
+                    <p className={`text-xs ${stat.change.startsWith('+') ? 'text-green-600' : stat.change.startsWith('-') ? 'text-red-600' : 'text-gray-600'}`}>
+                      {stat.change}
                     </p>
                   </div>
-                  <stat.icon className={`h-8 w-8 ${stat.color}`} />
+                  <stat.icon className={`h-6 w-6 ${stat.color} flex-shrink-0`} />
                 </div>
               </CardContent>
             </Card>
@@ -101,10 +129,15 @@ const Index = () => {
         <Card className="shadow-xl">
           <CardHeader className="bg-gradient-to-r from-green-600 to-blue-600 text-white">
             <CardTitle className="text-xl font-bold">
-              {activeModule === 'dashboard' && 'Dashboard Executivo'}
+              {activeModule === 'dashboard' && 'Dashboard Executivo Integrado'}
               {activeModule === 'environmental' && 'Gestão Ambiental'}
               {activeModule === 'ehs' && 'Sistema EHS'}
               {activeModule === 'esg' && 'Gestão ESG'}
+              {activeModule === 'compliance' && 'Gestão de Conformidade'}
+              {activeModule === 'data-collection' && 'Coleta de Dados e Relatórios'}
+              {activeModule === 'gis' && 'Sistema GIS Integrado'}
+              {activeModule === 'risk' && 'Gestão de Riscos'}
+              {activeModule === 'ai-insights' && 'Insights de IA'}
             </CardTitle>
           </CardHeader>
           <CardContent className="p-6">
@@ -112,69 +145,91 @@ const Index = () => {
           </CardContent>
         </Card>
 
-        {/* Quick Actions */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="hover:shadow-lg transition-shadow duration-300">
+        {/* AI-Powered Quick Actions */}
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Card className="hover:shadow-lg transition-shadow duration-300 border-l-4 border-l-purple-500">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-purple-600">
+                <Brain className="h-5 w-5" />
+                IA - Alertas Inteligentes
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-gray-600 mb-4">
+                IA detectou 3 anomalias em emissões e 2 riscos potenciais
+              </p>
+              <div className="space-y-2">
+                <Button className="w-full" variant="outline" size="sm">
+                  Ver Alertas IA
+                </Button>
+                <Button className="w-full" variant="outline" size="sm">
+                  Análise Preditiva
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow duration-300 border-l-4 border-l-green-500">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-green-600">
-                <Leaf className="h-5 w-5" />
-                Ação Rápida - Ambiental
+                <Activity className="h-5 w-5" />
+                GIS - Monitoramento
               </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-gray-600 mb-4">
-                Registrar nova medição de emissões ou iniciar auditoria ambiental
+                Visualizar dados ambientais em mapa interativo
               </p>
               <div className="space-y-2">
-                <Button className="w-full" variant="outline">
-                  Registrar Emissões
+                <Button className="w-full" variant="outline" size="sm">
+                  Abrir Mapa GIS
                 </Button>
-                <Button className="w-full" variant="outline">
-                  Nova Auditoria
+                <Button className="w-full" variant="outline" size="sm">
+                  Análise Espacial
                 </Button>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow duration-300">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-orange-600">
-                <Shield className="h-5 w-5" />
-                Ação Rápida - EHS
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-gray-600 mb-4">
-                Reportar incidente ou registrar observação de segurança
-              </p>
-              <div className="space-y-2">
-                <Button className="w-full" variant="outline">
-                  Reportar Incidente
-                </Button>
-                <Button className="w-full" variant="outline">
-                  Observação Segurança
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow duration-300">
+          <Card className="hover:shadow-lg transition-shadow duration-300 border-l-4 border-l-blue-500">
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-blue-600">
-                <TrendingUp className="h-5 w-5" />
-                Ação Rápida - ESG
+                <CheckCircle className="h-5 w-5" />
+                Conformidade Global
               </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-gray-600 mb-4">
-                Atualizar indicadores ESG ou gerar relatório de sustentabilidade
+                Status de conformidade com ISO 14001, CSRD e ESRS
               </p>
               <div className="space-y-2">
-                <Button className="w-full" variant="outline">
-                  Atualizar KPIs
+                <Button className="w-full" variant="outline" size="sm">
+                  Dashboard Compliance
                 </Button>
-                <Button className="w-full" variant="outline">
-                  Gerar Relatório
+                <Button className="w-full" variant="outline" size="sm">
+                  Relatórios ESRS
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow duration-300 border-l-4 border-l-orange-500">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-orange-600">
+                <AlertTriangle className="h-5 w-5" />
+                Gestão Integrada
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-gray-600 mb-4">
+                Visão unificada de riscos, incidentes e recursos
+              </p>
+              <div className="space-y-2">
+                <Button className="w-full" variant="outline" size="sm">
+                  Centro de Controle
+                </Button>
+                <Button className="w-full" variant="outline" size="sm">
+                  Relatório Executivo
                 </Button>
               </div>
             </CardContent>
