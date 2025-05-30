@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -16,6 +15,10 @@ import AuditInspectionModule from '@/components/modules/AuditInspectionModule';
 import ResourceUsageModule from '@/components/modules/ResourceUsageModule';
 import Navigation from '@/components/layout/Navigation';
 import { Leaf, Shield, TrendingUp, AlertTriangle, CheckCircle, Clock, Activity, Brain } from 'lucide-react';
+import AIAlerts from '@/components/features/AIAlerts';
+import GISMonitoring from '@/components/features/GISMonitoring';
+import GlobalCompliance from '@/components/features/GlobalCompliance';
+import IntegratedManagement from '@/components/features/IntegratedManagement';
 
 const Index = () => {
   const [activeModule, setActiveModule] = useState('dashboard');
@@ -87,6 +90,14 @@ const Index = () => {
         return <AuditInspectionModule />;
       case 'resource-usage':
         return <ResourceUsageModule />;
+      case 'ai-alerts':
+        return <AIAlerts />;
+      case 'gis-monitoring':
+        return <GISMonitoring />;
+      case 'global-compliance':
+        return <GlobalCompliance />;
+      case 'integrated-management':
+        return <IntegratedManagement />;
       default:
         return <DashboardOverview />;
     }
@@ -97,7 +108,7 @@ const Index = () => {
       <Navigation activeModule={activeModule} setActiveModule={setActiveModule} />
       
       <main className="container mx-auto px-4 py-8">
-        {/* Header */}
+        {/* Enhanced Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">
             Plataforma ESG/EHS/Gestão Ambiental Integrada
@@ -132,7 +143,7 @@ const Index = () => {
         </div>
 
         {/* Main Content */}
-        <Card className="shadow-xl">
+        <Card className="shadow-xl mb-8">
           <CardHeader className="bg-gradient-to-r from-green-600 to-blue-600 text-white">
             <CardTitle className="text-xl font-bold">
               {activeModule === 'dashboard' && 'Dashboard Executivo Integrado'}
@@ -146,6 +157,10 @@ const Index = () => {
               {activeModule === 'ai-insights' && 'Insights de IA'}
               {activeModule === 'audit-inspection' && 'Auditorias e Inspeções'}
               {activeModule === 'resource-usage' && 'Monitoramento do Uso de Recursos'}
+              {activeModule === 'ai-alerts' && 'IA - Alertas Inteligentes'}
+              {activeModule === 'gis-monitoring' && 'GIS - Monitoramento Espacial'}
+              {activeModule === 'global-compliance' && 'Conformidade Global'}
+              {activeModule === 'integrated-management' && 'Gestão Integrada'}
             </CardTitle>
           </CardHeader>
           <CardContent className="p-6">
@@ -153,9 +168,12 @@ const Index = () => {
           </CardContent>
         </Card>
 
-        {/* AI-Powered Quick Actions */}
-        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card className="hover:shadow-lg transition-shadow duration-300 border-l-4 border-l-purple-500">
+        {/* Enhanced Quick Actions - Always Visible */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Card 
+            className="hover:shadow-lg transition-shadow duration-300 border-l-4 border-l-purple-500 cursor-pointer"
+            onClick={() => setActiveModule('ai-alerts')}
+          >
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-purple-600">
                 <Brain className="h-5 w-5" />
@@ -177,7 +195,10 @@ const Index = () => {
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow duration-300 border-l-4 border-l-green-500">
+          <Card 
+            className="hover:shadow-lg transition-shadow duration-300 border-l-4 border-l-green-500 cursor-pointer"
+            onClick={() => setActiveModule('gis-monitoring')}
+          >
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-green-600">
                 <Activity className="h-5 w-5" />
@@ -199,7 +220,10 @@ const Index = () => {
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow duration-300 border-l-4 border-l-blue-500">
+          <Card 
+            className="hover:shadow-lg transition-shadow duration-300 border-l-4 border-l-blue-500 cursor-pointer"
+            onClick={() => setActiveModule('global-compliance')}
+          >
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-blue-600">
                 <CheckCircle className="h-5 w-5" />
@@ -221,7 +245,10 @@ const Index = () => {
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow duration-300 border-l-4 border-l-orange-500">
+          <Card 
+            className="hover:shadow-lg transition-shadow duration-300 border-l-4 border-l-orange-500 cursor-pointer"
+            onClick={() => setActiveModule('integrated-management')}
+          >
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-orange-600">
                 <AlertTriangle className="h-5 w-5" />
