@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -14,11 +13,18 @@ import {
   Thermometer,
   Droplets,
   Wind,
-  Zap
+  Zap,
+  TrendingUp
 } from 'lucide-react';
 
+import EnvironmentalMapping from './gis/EnvironmentalMapping';
+import SpatialAnalysis from './gis/SpatialAnalysis';
+import SatelliteIntegration from './gis/SatelliteIntegration';
+import GeospatialSimulations from './gis/GeospatialSimulations';
+import AIGeoAnalytics from './gis/AIGeoAnalytics';
+
 const GISIntegration = () => {
-  const [activeTab, setActiveTab] = useState('map');
+  const [activeTab, setActiveTab] = useState('environmental');
 
   const monitoringPoints = [
     {
@@ -135,30 +141,58 @@ const GISIntegration = () => {
   return (
     <div className="space-y-6">
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="map" className="flex items-center gap-2">
+        <TabsList className="grid w-full grid-cols-6">
+          <TabsTrigger value="environmental" className="flex items-center gap-2">
             <Map className="h-4 w-4" />
-            Mapa Interativo
-          </TabsTrigger>
-          <TabsTrigger value="monitoring" className="flex items-center gap-2">
-            <MapPin className="h-4 w-4" />
-            Pontos de Monitoramento
-          </TabsTrigger>
-          <TabsTrigger value="layers" className="flex items-center gap-2">
-            <Layers className="h-4 w-4" />
-            Camadas Ambientais
+            Mapeamento Ambiental
           </TabsTrigger>
           <TabsTrigger value="analysis" className="flex items-center gap-2">
             <Activity className="h-4 w-4" />
             Análise Espacial
           </TabsTrigger>
+          <TabsTrigger value="satellite" className="flex items-center gap-2">
+            <Satellite className="h-4 w-4" />
+            Dados de Satélite
+          </TabsTrigger>
+          <TabsTrigger value="simulations" className="flex items-center gap-2">
+            <TrendingUp className="h-4 w-4" />
+            Simulações
+          </TabsTrigger>
+          <TabsTrigger value="ai" className="flex items-center gap-2">
+            <Activity className="h-4 w-4" />
+            IA Geoespacial
+          </TabsTrigger>
+          <TabsTrigger value="overview" className="flex items-center gap-2">
+            <Layers className="h-4 w-4" />
+            Visão Geral
+          </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="map" className="space-y-6">
+        <TabsContent value="environmental" className="space-y-6">
+          <EnvironmentalMapping />
+        </TabsContent>
+
+        <TabsContent value="analysis" className="space-y-6">
+          <SpatialAnalysis />
+        </TabsContent>
+
+        <TabsContent value="satellite" className="space-y-6">
+          <SatelliteIntegration />
+        </TabsContent>
+
+        <TabsContent value="simulations" className="space-y-6">
+          <GeospatialSimulations />
+        </TabsContent>
+
+        <TabsContent value="ai" className="space-y-6">
+          <AIGeoAnalytics />
+        </TabsContent>
+
+        <TabsContent value="overview" className="space-y-6">
           <Card>
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle>Sistema GIS - Monitoramento Ambiental</CardTitle>
+                <CardTitle>Sistema GIS Central - Visão Geral</CardTitle>
                 <div className="flex gap-2">
                   <Button size="sm" variant="outline">
                     <Satellite className="h-4 w-4 mr-1" />
@@ -175,68 +209,93 @@ const GISIntegration = () => {
               </div>
             </CardHeader>
             <CardContent>
-              {/* Placeholder para mapa interativo */}
               <div className="relative h-96 bg-gradient-to-br from-green-100 to-blue-100 rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center">
                 <div className="text-center">
                   <Map className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-gray-600 mb-2">Mapa GIS Interativo</h3>
+                  <h3 className="text-lg font-medium text-gray-600 mb-2">Sistema GIS Central Integrado</h3>
                   <p className="text-sm text-gray-500 mb-4">
-                    Visualização em tempo real dos pontos de monitoramento ambiental
+                    Visualização centralizada de dados ambientais, análises espaciais e simulações
                   </p>
                   <div className="flex flex-wrap justify-center gap-2">
                     <Badge className="bg-red-100 text-red-800">
                       <div className="w-2 h-2 bg-red-500 rounded-full mr-1" />
-                      Emissões
+                      Emissões ({monitoringPoints.filter(p => p.type === 'Emissões').length})
                     </Badge>
                     <Badge className="bg-blue-100 text-blue-800">
                       <div className="w-2 h-2 bg-blue-500 rounded-full mr-1" />
-                      Qualidade Água
+                      Qualidade Água ({monitoringPoints.filter(p => p.type === 'Qualidade Água').length})
                     </Badge>
                     <Badge className="bg-green-100 text-green-800">
                       <div className="w-2 h-2 bg-green-500 rounded-full mr-1" />
-                      Meteorologia
+                      Meteorologia ({monitoringPoints.filter(p => p.type === 'Clima').length})
                     </Badge>
                     <Badge className="bg-orange-100 text-orange-800">
                       <div className="w-2 h-2 bg-orange-500 rounded-full mr-1" />
-                      Ruído
+                      Ruído ({monitoringPoints.filter(p => p.type === 'Ruído').length})
                     </Badge>
                   </div>
                 </div>
               </div>
               
-              {/* Painel de controle do mapa */}
               <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
                 <Card>
                   <CardContent className="p-4 text-center">
                     <MapPin className="h-6 w-6 text-blue-600 mx-auto mb-2" />
-                    <div className="text-lg font-bold">24</div>
-                    <p className="text-xs text-gray-600">Pontos Ativos</p>
+                    <div className="text-lg font-bold">156</div>
+                    <p className="text-xs text-gray-600">Pontos Monitorados</p>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardContent className="p-4 text-center">
                     <AlertTriangle className="h-6 w-6 text-orange-600 mx-auto mb-2" />
-                    <div className="text-lg font-bold">3</div>
-                    <p className="text-xs text-gray-600">Alertas</p>
+                    <div className="text-lg font-bold">8</div>
+                    <p className="text-xs text-gray-600">Alertas Ativos</p>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardContent className="p-4 text-center">
                     <Layers className="h-6 w-6 text-green-600 mx-auto mb-2" />
-                    <div className="text-lg font-bold">8</div>
-                    <p className="text-xs text-gray-600">Camadas</p>
+                    <div className="text-lg font-bold">25</div>
+                    <p className="text-xs text-gray-600">Camadas Ativas</p>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardContent className="p-4 text-center">
                     <Activity className="h-6 w-6 text-purple-600 mx-auto mb-2" />
-                    <div className="text-lg font-bold">94%</div>
-                    <p className="text-xs text-gray-600">Uptime</p>
+                    <div className="text-lg font-bold">97%</div>
+                    <p className="text-xs text-gray-600">Sistema Online</p>
                   </CardContent>
                 </Card>
               </div>
             </CardContent>
           </Card>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <Card>
+              <CardContent className="p-4 text-center">
+                <div className="text-2xl font-bold text-blue-600">24</div>
+                <p className="text-sm text-gray-600">Análises Espaciais Ativas</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-4 text-center">
+                <div className="text-2xl font-bold text-green-600">847</div>
+                <p className="text-sm text-gray-600">Imagens de Satélite</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-4 text-center">
+                <div className="text-2xl font-bold text-orange-600">15</div>
+                <p className="text-sm text-gray-600">Simulações em Execução</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-4 text-center">
+                <div className="text-2xl font-bold text-purple-600">92%</div>
+                <p className="text-sm text-gray-600">Precisão da IA</p>
+              </CardContent>
+            </Card>
+          </div>
         </TabsContent>
 
         <TabsContent value="monitoring" className="space-y-6">
