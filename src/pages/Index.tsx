@@ -12,6 +12,7 @@ import DataCollectionModule from '@/components/modules/DataCollectionModule';
 import GISIntegration from '@/components/modules/GISIntegration';
 import RiskManagement from '@/components/modules/RiskManagement';
 import AIInsights from '@/components/modules/AIInsights';
+import AuditInspectionModule from '@/components/modules/AuditInspectionModule';
 import Navigation from '@/components/layout/Navigation';
 import { Leaf, Shield, TrendingUp, AlertTriangle, CheckCircle, Clock, Activity, Brain } from 'lucide-react';
 
