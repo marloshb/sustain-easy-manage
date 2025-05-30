@@ -5,6 +5,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import StandardsRepository from './compliance/StandardsRepository';
+import GapAnalysis from './compliance/GapAnalysis';
+import ComplianceCalendar from './compliance/ComplianceCalendar';
+import DocumentManagement from './compliance/DocumentManagement';
+import TrainingLibrary from './compliance/TrainingLibrary';
+import ReportingSupport from './compliance/ReportingSupport';
+import AIAgent from './compliance/AIAgent';
 import { 
   CheckSquare, 
   FileText, 
@@ -15,7 +22,11 @@ import {
   Clock,
   CheckCircle,
   XCircle,
-  TrendingUp
+  TrendingUp,
+  Database,
+  BookOpen,
+  Brain,
+  Search
 } from 'lucide-react';
 
 const ComplianceModule = () => {
@@ -29,7 +40,8 @@ const ComplianceModule = () => {
       nextAudit: "2024-06-15",
       requirements: 45,
       completed: 43,
-      color: "green"
+      color: "green",
+      priority: "Alta"
     },
     {
       name: "ISO 45001",
@@ -38,7 +50,8 @@ const ComplianceModule = () => {
       nextAudit: "2024-05-20",
       requirements: 38,
       completed: 36,
-      color: "green"
+      color: "green",
+      priority: "Alta"
     },
     {
       name: "CSRD/ESRS",
@@ -47,7 +60,8 @@ const ComplianceModule = () => {
       nextAudit: "2024-07-30",
       requirements: 52,
       completed: 41,
-      color: "yellow"
+      color: "yellow",
+      priority: "Crítica"
     },
     {
       name: "GRI Standards",
@@ -56,7 +70,8 @@ const ComplianceModule = () => {
       nextAudit: "2024-08-15",
       requirements: 35,
       completed: 32,
-      color: "green"
+      color: "green",
+      priority: "Média"
     },
     {
       name: "CDP Climate",
@@ -65,7 +80,8 @@ const ComplianceModule = () => {
       nextAudit: "2024-04-10",
       requirements: 28,
       completed: 19,
-      color: "orange"
+      color: "orange",
+      priority: "Alta"
     },
     {
       name: "OSHA",
@@ -74,65 +90,8 @@ const ComplianceModule = () => {
       nextAudit: "2024-09-01",
       requirements: 42,
       completed: 41,
-      color: "green"
-    }
-  ];
-
-  const upcomingDeadlines = [
-    {
-      framework: "CDP Climate",
-      task: "Relatório de Emissões Q1",
-      deadline: "2024-02-15",
-      priority: "Alta",
-      responsible: "Maria Silva"
-    },
-    {
-      framework: "CSRD/ESRS",
-      task: "Validação de Dados ESG",
-      deadline: "2024-02-20",
-      priority: "Média",
-      responsible: "João Santos"
-    },
-    {
-      framework: "ISO 14001",
-      task: "Revisão de Procedimentos",
-      deadline: "2024-02-28",
-      priority: "Baixa",
-      responsible: "Ana Costa"
-    },
-    {
-      framework: "OSHA",
-      task: "Atualização de Treinamentos",
-      deadline: "2024-03-05",
-      priority: "Alta",
-      responsible: "Pedro Lima"
-    }
-  ];
-
-  const documents = [
-    {
-      name: "Política Ambiental 2024",
-      framework: "ISO 14001",
-      version: "v2.1",
-      status: "Aprovado",
-      lastUpdate: "2024-01-10",
-      nextReview: "2024-07-10"
-    },
-    {
-      name: "Manual de Segurança",
-      framework: "ISO 45001",
-      version: "v3.0",
-      status: "Em Revisão",
-      lastUpdate: "2024-01-08",
-      nextReview: "2024-04-08"
-    },
-    {
-      name: "Relatório ESRS E1",
-      framework: "CSRD/ESRS",
-      version: "v1.0",
-      status: "Rascunho",
-      lastUpdate: "2024-01-15",
-      nextReview: "2024-02-15"
+      color: "green",
+      priority: "Alta"
     }
   ];
 
@@ -148,7 +107,8 @@ const ComplianceModule = () => {
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'Alta': return 'bg-red-100 text-red-800';
+      case 'Crítica': return 'bg-red-100 text-red-800';
+      case 'Alta': return 'bg-orange-100 text-orange-800';
       case 'Média': return 'bg-yellow-100 text-yellow-800';
       case 'Baixa': return 'bg-green-100 text-green-800';
       default: return 'bg-gray-100 text-gray-800';
@@ -158,22 +118,38 @@ const ComplianceModule = () => {
   return (
     <div className="space-y-6">
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="overview" className="flex items-center gap-2">
-            <CheckSquare className="h-4 w-4" />
-            Visão Geral
+        <TabsList className="grid w-full grid-cols-8">
+          <TabsTrigger value="overview" className="flex items-center gap-1">
+            <CheckSquare className="h-3 w-3" />
+            <span className="hidden sm:inline">Visão Geral</span>
           </TabsTrigger>
-          <TabsTrigger value="frameworks" className="flex items-center gap-2">
-            <Globe className="h-4 w-4" />
-            Frameworks
+          <TabsTrigger value="standards" className="flex items-center gap-1">
+            <Database className="h-3 w-3" />
+            <span className="hidden sm:inline">Padrões</span>
           </TabsTrigger>
-          <TabsTrigger value="deadlines" className="flex items-center gap-2">
-            <Calendar className="h-4 w-4" />
-            Prazos
+          <TabsTrigger value="gap-analysis" className="flex items-center gap-1">
+            <Search className="h-3 w-3" />
+            <span className="hidden sm:inline">Análise</span>
           </TabsTrigger>
-          <TabsTrigger value="documents" className="flex items-center gap-2">
-            <FileText className="h-4 w-4" />
-            Documentos
+          <TabsTrigger value="calendar" className="flex items-center gap-1">
+            <Calendar className="h-3 w-3" />
+            <span className="hidden sm:inline">Calendário</span>
+          </TabsTrigger>
+          <TabsTrigger value="documents" className="flex items-center gap-1">
+            <FileText className="h-3 w-3" />
+            <span className="hidden sm:inline">Documentos</span>
+          </TabsTrigger>
+          <TabsTrigger value="training" className="flex items-center gap-1">
+            <BookOpen className="h-3 w-3" />
+            <span className="hidden sm:inline">Treinamento</span>
+          </TabsTrigger>
+          <TabsTrigger value="reports" className="flex items-center gap-1">
+            <TrendingUp className="h-3 w-3" />
+            <span className="hidden sm:inline">Relatórios</span>
+          </TabsTrigger>
+          <TabsTrigger value="ai-agent" className="flex items-center gap-1">
+            <Brain className="h-3 w-3" />
+            <span className="hidden sm:inline">IA</span>
           </TabsTrigger>
         </TabsList>
 
@@ -216,7 +192,7 @@ const ComplianceModule = () => {
             <CardContent>
               <div className="space-y-4">
                 {complianceFrameworks.map((framework, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 border rounded-lg">
+                  <div key={index} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50">
                     <div className="flex items-center space-x-4">
                       <div className={`w-3 h-3 rounded-full ${
                         framework.color === 'green' ? 'bg-green-500' :
@@ -231,6 +207,9 @@ const ComplianceModule = () => {
                       </div>
                     </div>
                     <div className="flex items-center space-x-4">
+                      <Badge className={getPriorityColor(framework.priority)}>
+                        {framework.priority}
+                      </Badge>
                       <div className="text-right">
                         <div className="text-lg font-bold">{framework.progress}%</div>
                         <Progress value={framework.progress} className="w-20 h-2" />
@@ -244,139 +223,88 @@ const ComplianceModule = () => {
               </div>
             </CardContent>
           </Card>
-        </TabsContent>
 
-        <TabsContent value="frameworks" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {complianceFrameworks.map((framework, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg">{framework.name}</CardTitle>
-                    <Badge className={getStatusColor(framework.status)}>
-                      {framework.status}
-                    </Badge>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div>
-                      <div className="flex justify-between mb-2">
-                        <span className="text-sm text-gray-600">Progresso</span>
-                        <span className="text-sm font-medium">{framework.progress}%</span>
-                      </div>
-                      <Progress value={framework.progress} className="h-2" />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4 text-sm">
-                      <div>
-                        <p className="text-gray-600">Requisitos</p>
-                        <p className="font-medium">{framework.requirements}</p>
-                      </div>
-                      <div>
-                        <p className="text-gray-600">Completados</p>
-                        <p className="font-medium">{framework.completed}</p>
-                      </div>
-                    </div>
-                    <div>
-                      <p className="text-gray-600 text-sm">Próxima Auditoria</p>
-                      <p className="font-medium">{framework.nextAudit}</p>
-                    </div>
-                    <Button className="w-full" variant="outline" size="sm">
-                      Ver Detalhes
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+          {/* Quick Actions */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Card className="hover:shadow-lg transition-shadow duration-300 border-l-4 border-l-blue-500">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-blue-600">
+                  <Search className="h-5 w-5" />
+                  Análise de Lacunas
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-gray-600 mb-4">
+                  Identifique lacunas de conformidade e receba recomendações
+                </p>
+                <Button className="w-full" onClick={() => setActiveTab('gap-analysis')}>
+                  Iniciar Análise
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-lg transition-shadow duration-300 border-l-4 border-l-green-500">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-green-600">
+                  <FileText className="h-5 w-5" />
+                  Wizards Guiados
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-gray-600 mb-4">
+                  Implemente padrões com fluxos guiados passo a passo
+                </p>
+                <Button className="w-full" onClick={() => setActiveTab('standards')}>
+                  Ver Wizards
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card className="hover:shadow-lg transition-shadow duration-300 border-l-4 border-l-purple-500">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-purple-600">
+                  <Brain className="h-5 w-5" />
+                  Agente IA
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-gray-600 mb-4">
+                  Obtenha análises inteligentes e suporte para conformidade
+                </p>
+                <Button className="w-full" onClick={() => setActiveTab('ai-agent')}>
+                  Consultar IA
+                </Button>
+              </CardContent>
+            </Card>
           </div>
         </TabsContent>
 
-        <TabsContent value="deadlines" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Próximos Prazos e Entregas</CardTitle>
-              <Button size="sm">Adicionar Prazo</Button>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {upcomingDeadlines.map((item, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 border-l-4 border-l-orange-400 bg-orange-50 rounded-lg">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <h3 className="font-medium">{item.task}</h3>
-                        <Badge className={getPriorityColor(item.priority)}>
-                          {item.priority}
-                        </Badge>
-                      </div>
-                      <p className="text-sm text-gray-600 mb-1">{item.framework}</p>
-                      <p className="text-sm text-gray-500">Responsável: {item.responsible}</p>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-sm font-medium text-orange-600">{item.deadline}</div>
-                      <Button size="sm" variant="outline" className="mt-2">
-                        Gerenciar
-                      </Button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+        <TabsContent value="standards">
+          <StandardsRepository />
         </TabsContent>
 
-        <TabsContent value="documents" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Controle de Documentos</CardTitle>
-              <div className="flex gap-2">
-                <Button size="sm">Novo Documento</Button>
-                <Button size="sm" variant="outline">Importar</Button>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="border-b">
-                      <th className="text-left py-2">Documento</th>
-                      <th className="text-left py-2">Framework</th>
-                      <th className="text-left py-2">Versão</th>
-                      <th className="text-left py-2">Status</th>
-                      <th className="text-left py-2">Última Atualização</th>
-                      <th className="text-left py-2">Próxima Revisão</th>
-                      <th className="text-left py-2">Ações</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {documents.map((doc, index) => (
-                      <tr key={index} className="border-b">
-                        <td className="py-2 font-medium">{doc.name}</td>
-                        <td className="py-2">{doc.framework}</td>
-                        <td className="py-2">{doc.version}</td>
-                        <td className="py-2">
-                          <Badge className={getStatusColor(doc.status)}>
-                            {doc.status}
-                          </Badge>
-                        </td>
-                        <td className="py-2">{doc.lastUpdate}</td>
-                        <td className="py-2">{doc.nextReview}</td>
-                        <td className="py-2">
-                          <div className="flex gap-1">
-                            <Button size="sm" variant="outline">
-                              Ver
-                            </Button>
-                            <Button size="sm" variant="outline">
-                              Editar
-                            </Button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
+        <TabsContent value="gap-analysis">
+          <GapAnalysis />
+        </TabsContent>
+
+        <TabsContent value="calendar">
+          <ComplianceCalendar />
+        </TabsContent>
+
+        <TabsContent value="documents">
+          <DocumentManagement />
+        </TabsContent>
+
+        <TabsContent value="training">
+          <TrainingLibrary />
+        </TabsContent>
+
+        <TabsContent value="reports">
+          <ReportingSupport />
+        </TabsContent>
+
+        <TabsContent value="ai-agent">
+          <AIAgent />
         </TabsContent>
       </Tabs>
     </div>
