@@ -1,574 +1,333 @@
 
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Brain, 
   TrendingUp, 
   AlertTriangle, 
-  Eye,
-  Zap,
-  Target,
+  FileText, 
+  Zap, 
+  Map,
+  Database,
   Activity,
-  MessageSquare,
+  Target,
   BarChart3,
-  CheckCircle
+  MessageSquare,
+  Settings
 } from 'lucide-react';
+import PredictiveAnalysis from './ai-insights/PredictiveAnalysis';
+import AnomalyDetection from './ai-insights/AnomalyDetection';
+import NLPDocumentAnalysis from './ai-insights/NLPDocumentAnalysis';
+import ResourceOptimization from './ai-insights/ResourceOptimization';
+import GISIntegration from './ai-insights/GISIntegration';
+import OpenDataIntegration from './ai-insights/OpenDataIntegration';
+import PredictiveModeling from './ai-insights/PredictiveModeling';
+import AIAgent from './ai-insights/AIAgent';
 
 const AIInsights = () => {
-  const [activeTab, setActiveTab] = useState('alerts');
+  const [activeTab, setActiveTab] = useState('overview');
 
-  const aiAlerts = [
+  const modules = [
     {
-      id: "AI-001",
-      type: "Anomalia Detectada",
-      severity: "Alta",
-      description: "Emissões CO2 35% acima da média nas últimas 4 horas",
-      confidence: 94,
-      timestamp: "2024-01-16 14:30",
-      source: "Sensor IOT-001",
-      recommendation: "Verificar equipamento de combustão - possível mau funcionamento"
+      id: 'predictive',
+      name: 'Análise Preditiva',
+      description: 'Previsões de riscos e tendências',
+      icon: TrendingUp,
+      color: 'text-blue-600',
+      status: 'Ativo',
+      insights: 15,
+      accuracy: '94.2%'
     },
     {
-      id: "AI-002", 
-      type: "Previsão de Risco",
-      severity: "Média",
-      description: "85% probabilidade de não conformidade CSRD até março",
-      confidence: 87,
-      timestamp: "2024-01-16 12:15",
-      source: "Modelo Preditivo",
-      recommendation: "Acelerar coleta de dados ESG e treinamento da equipe"
+      id: 'anomaly',
+      name: 'Detecção de Anomalias',
+      description: 'Identificação de inconsistências',
+      icon: AlertTriangle,
+      color: 'text-orange-600',
+      status: 'Ativo',
+      insights: 8,
+      accuracy: '97.1%'
     },
     {
-      id: "AI-003",
-      type: "Oportunidade de Otimização",
-      severity: "Baixa",
-      description: "Redução de 12% no consumo energético identificada",
-      confidence: 91,
-      timestamp: "2024-01-16 10:45", 
-      source: "Análise de Padrões",
-      recommendation: "Implementar ajustes no sistema de climatização"
+      id: 'nlp',
+      name: 'Análise NLP',
+      description: 'Processamento de documentos',
+      icon: FileText,
+      color: 'text-green-600',
+      status: 'Ativo',
+      insights: 23,
+      accuracy: '91.8%'
     },
     {
-      id: "AI-004",
-      type: "Análise de Documentos",
-      severity: "Média",
-      description: "3 inconsistências encontradas em relatórios ESG",
-      confidence: 78,
-      timestamp: "2024-01-16 09:20",
-      source: "NLP Engine",
-      recommendation: "Revisar seções de dados sociais e governança"
+      id: 'optimization',
+      name: 'Otimização de Recursos',
+      description: 'ML para eficiência operacional',
+      icon: Zap,
+      color: 'text-purple-600',
+      status: 'Ativo',
+      insights: 12,
+      accuracy: '89.5%'
+    },
+    {
+      id: 'gis',
+      name: 'Integração GIS',
+      description: 'Análises espaciais inteligentes',
+      icon: Map,
+      color: 'text-teal-600',
+      status: 'Ativo',
+      insights: 18,
+      accuracy: '96.3%'
+    },
+    {
+      id: 'opendata',
+      name: 'Dados Abertos',
+      description: 'Integração e benchmarking',
+      icon: Database,
+      color: 'text-indigo-600',
+      status: 'Ativo',
+      insights: 31,
+      accuracy: '93.7%'
     }
   ];
 
-  const predictiveModels = [
+  const performanceMetrics = [
     {
-      name: "Previsão de Emissões",
-      type: "Regressão Temporal",
-      accuracy: 94,
-      status: "Ativo",
-      lastTrained: "2024-01-10",
-      predictions: "7 dias à frente"
+      title: 'Insights Gerados',
+      value: '1,247',
+      change: '+18%',
+      icon: Brain,
+      color: 'text-purple-600'
     },
     {
-      name: "Risco de Compliance",
-      type: "Classificação",
-      accuracy: 87,
-      status: "Ativo", 
-      lastTrained: "2024-01-08",
-      predictions: "Mensal"
+      title: 'Previsões Precisas',
+      value: '94.2%',
+      change: '+2.1%',
+      icon: Target,
+      color: 'text-green-600'
     },
     {
-      name: "Otimização Energética",
-      type: "Otimização",
-      accuracy: 91,
-      status: "Treinando",
-      lastTrained: "2024-01-15",
-      predictions: "Diário"
+      title: 'Anomalias Detectadas',
+      value: '87',
+      change: '+15',
+      icon: AlertTriangle,
+      color: 'text-orange-600'
     },
     {
-      name: "Detecção de Anomalias",
-      type: "Detecção",
-      accuracy: 96,
-      status: "Ativo",
-      lastTrained: "2024-01-12",
-      predictions: "Tempo Real"
+      title: 'Recursos Otimizados',
+      value: '23%',
+      change: '+5.2%',
+      icon: Zap,
+      color: 'text-blue-600'
     }
   ];
 
-  const documentAnalysis = [
+  const recentInsights = [
     {
-      document: "Relatório ESG Q4 2023",
-      type: "PDF",
-      status: "Analisado",
-      issues: 2,
-      suggestions: 5,
-      completeness: 78,
-      lastAnalysis: "2024-01-15"
+      type: 'Predição',
+      title: 'Risco de Não Conformidade CSRD',
+      description: 'Probabilidade de 73% de não atingir meta de emissões Q3',
+      severity: 'Alto',
+      module: 'Análise Preditiva',
+      timestamp: '2 min atrás'
     },
     {
-      document: "Política Ambiental v2.1",
-      type: "DOCX", 
-      status: "Em Análise",
-      issues: 0,
-      suggestions: 3,
-      completeness: 92,
-      lastAnalysis: "2024-01-16"
+      type: 'Anomalia',
+      title: 'Pico de Consumo de Água',
+      description: 'Aumento de 45% no consumo na Unidade B',
+      severity: 'Médio',
+      module: 'Detecção de Anomalias',
+      timestamp: '15 min atrás'
     },
     {
-      document: "Manual de Segurança",
-      type: "PDF",
-      status: "Pendente",
-      issues: 0,
-      suggestions: 0,
-      completeness: 0,
-      lastAnalysis: "N/A"
-    }
-  ];
-
-  const insights = [
-    {
-      title: "Tendência de Melhoria",
-      description: "Emissões de CO2 reduziram 8.4% nos últimos 3 meses",
-      impact: "Positivo",
-      confidence: 92,
-      category: "Ambiental"
+      type: 'Otimização',
+      title: 'Oportunidade de Eficiência',
+      description: 'Possível economia de 12% em energia na linha de produção',
+      severity: 'Baixo',
+      module: 'Otimização de Recursos',
+      timestamp: '1 hora atrás'
     },
     {
-      title: "Padrão de Consumo",
-      description: "Pico de energia detectado sempre às 14h - oportunidade de otimização",
-      impact: "Neutro",
-      confidence: 85,
-      category: "Eficiência"
-    },
-    {
-      title: "Risco Emergente",
-      description: "Aumento gradual de incidents de segurança - investigação necessária",
-      impact: "Negativo", 
-      confidence: 76,
-      category: "Segurança"
+      type: 'NLP',
+      title: 'Gap de Conformidade',
+      description: 'Relatório ESG com lacunas no padrão ESRS',
+      severity: 'Médio',
+      module: 'Análise NLP',
+      timestamp: '2 horas atrás'
     }
   ];
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case 'Alta': return 'bg-red-100 text-red-800';
-      case 'Média': return 'bg-yellow-100 text-yellow-800';
-      case 'Baixa': return 'bg-green-100 text-green-800';
+      case 'Alto': return 'bg-red-100 text-red-800';
+      case 'Médio': return 'bg-yellow-100 text-yellow-800';
+      case 'Baixo': return 'bg-green-100 text-green-800';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'Ativo': case 'Analisado': return 'bg-green-100 text-green-800';
-      case 'Treinando': case 'Em Análise': return 'bg-yellow-100 text-yellow-800';
-      case 'Pendente': return 'bg-gray-100 text-gray-800';
-      default: return 'bg-gray-100 text-gray-800';
-    }
-  };
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case 'predictive':
+        return <PredictiveAnalysis />;
+      case 'anomaly':
+        return <AnomalyDetection />;
+      case 'nlp':
+        return <NLPDocumentAnalysis />;
+      case 'optimization':
+        return <ResourceOptimization />;
+      case 'gis':
+        return <GISIntegration />;
+      case 'opendata':
+        return <OpenDataIntegration />;
+      case 'modeling':
+        return <PredictiveModeling />;
+      case 'agent':
+        return <AIAgent />;
+      default:
+        return (
+          <div className="space-y-6">
+            {/* Performance Metrics */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+              {performanceMetrics.map((metric, index) => (
+                <Card key={index}>
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-sm font-medium text-gray-600">{metric.title}</p>
+                        <p className="text-2xl font-bold">{metric.value}</p>
+                        <p className={`text-sm ${metric.change.startsWith('+') ? 'text-green-600' : 'text-red-600'}`}>
+                          {metric.change}
+                        </p>
+                      </div>
+                      <metric.icon className={`h-8 w-8 ${metric.color}`} />
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
 
-  const getImpactColor = (impact: string) => {
-    switch (impact) {
-      case 'Positivo': return 'text-green-600';
-      case 'Negativo': return 'text-red-600';
-      case 'Neutro': return 'text-gray-600';
-      default: return 'text-gray-600';
+            {/* AI Modules Grid */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Módulos de IA Ativados</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {modules.map((module) => (
+                    <Card key={module.id} className="hover:shadow-md transition-shadow duration-200">
+                      <CardContent className="p-4">
+                        <div className="flex items-start justify-between mb-3">
+                          <module.icon className={`h-6 w-6 ${module.color}`} />
+                          <Badge variant="outline" className="text-green-600">
+                            {module.status}
+                          </Badge>
+                        </div>
+                        <h3 className="font-semibold mb-2">{module.name}</h3>
+                        <p className="text-sm text-gray-600 mb-3">{module.description}</p>
+                        <div className="space-y-2">
+                          <div className="flex justify-between text-sm">
+                            <span className="text-gray-500">Insights:</span>
+                            <span className="font-medium">{module.insights}</span>
+                          </div>
+                          <div className="flex justify-between text-sm">
+                            <span className="text-gray-500">Precisão:</span>
+                            <span className="font-medium text-green-600">{module.accuracy}</span>
+                          </div>
+                        </div>
+                        <Button 
+                          size="sm" 
+                          className="w-full mt-3"
+                          onClick={() => setActiveTab(module.id)}
+                        >
+                          Acessar Módulo
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Recent Insights */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Activity className="h-5 w-5 text-purple-600" />
+                  Insights Recentes
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  {recentInsights.map((insight, index) => (
+                    <div key={index} className="flex items-start gap-4 p-4 border rounded-lg hover:bg-gray-50">
+                      <div className="flex-shrink-0">
+                        <Badge variant="outline">{insight.type}</Badge>
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="font-semibold">{insight.title}</h3>
+                          <Badge className={getSeverityColor(insight.severity)}>
+                            {insight.severity}
+                          </Badge>
+                        </div>
+                        <p className="text-sm text-gray-600 mb-2">{insight.description}</p>
+                        <div className="flex justify-between items-center text-xs text-gray-500">
+                          <span>{insight.module}</span>
+                          <span>{insight.timestamp}</span>
+                        </div>
+                      </div>
+                      <Button size="sm" variant="outline">
+                        Ver Detalhes
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        );
     }
   };
 
   return (
     <div className="space-y-6">
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="alerts" className="flex items-center gap-2">
-            <AlertTriangle className="h-4 w-4" />
-            Alertas IA
-          </TabsTrigger>
-          <TabsTrigger value="predictions" className="flex items-center gap-2">
-            <TrendingUp className="h-4 w-4" />
-            Previsões
-          </TabsTrigger>
-          <TabsTrigger value="anomalies" className="flex items-center gap-2">
-            <Eye className="h-4 w-4" />
-            Anomalias
-          </TabsTrigger>
-          <TabsTrigger value="documents" className="flex items-center gap-2">
-            <MessageSquare className="h-4 w-4" />
-            Análise de Docs
-          </TabsTrigger>
-          <TabsTrigger value="insights" className="flex items-center gap-2">
-            <Brain className="h-4 w-4" />
-            Insights
-          </TabsTrigger>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">IA para Suporte à Decisão</h1>
+          <p className="text-gray-600">
+            Análises avançadas e inteligência artificial para decisões estratégicas
+          </p>
+        </div>
+        <div className="flex gap-2">
+          <Button variant="outline">
+            <Settings className="h-4 w-4 mr-2" />
+            Configurações
+          </Button>
+          <Button>
+            <MessageSquare className="h-4 w-4 mr-2" />
+            Chat com IA
+          </Button>
+        </div>
+      </div>
+
+      <Tabs value={activeTab} onValueChange={setActiveTab}>
+        <TabsList className="grid grid-cols-9 w-full">
+          <TabsTrigger value="overview">Visão Geral</TabsTrigger>
+          <TabsTrigger value="predictive">Preditiva</TabsTrigger>
+          <TabsTrigger value="anomaly">Anomalias</TabsTrigger>
+          <TabsTrigger value="nlp">NLP</TabsTrigger>
+          <TabsTrigger value="optimization">Otimização</TabsTrigger>
+          <TabsTrigger value="gis">GIS</TabsTrigger>
+          <TabsTrigger value="opendata">Dados Abertos</TabsTrigger>
+          <TabsTrigger value="modeling">Modelagem</TabsTrigger>
+          <TabsTrigger value="agent">Agente IA</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="alerts" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <Card className="text-center border-red-200">
-              <CardContent className="p-6">
-                <AlertTriangle className="h-8 w-8 text-red-600 mx-auto mb-2" />
-                <div className="text-2xl font-bold text-red-600">8</div>
-                <p className="text-sm text-gray-600">Alertas Críticos</p>
-              </CardContent>
-            </Card>
-            <Card className="text-center border-purple-200">
-              <CardContent className="p-6">
-                <Brain className="h-8 w-8 text-purple-600 mx-auto mb-2" />
-                <div className="text-2xl font-bold text-purple-600">94%</div>
-                <p className="text-sm text-gray-600">Precisão IA</p>
-              </CardContent>
-            </Card>
-            <Card className="text-center border-blue-200">
-              <CardContent className="p-6">
-                <Activity className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-                <div className="text-2xl font-bold text-blue-600">247</div>
-                <p className="text-sm text-gray-600">Previsões/Hora</p>
-              </CardContent>
-            </Card>
-            <Card className="text-center border-green-200">
-              <CardContent className="p-6">
-                <CheckCircle className="h-8 w-8 text-green-600 mx-auto mb-2" />
-                <div className="text-2xl font-bold text-green-600">23</div>
-                <p className="text-sm text-gray-600">Problemas Prevenidos</p>
-              </CardContent>
-            </Card>
-          </div>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Alertas Inteligentes em Tempo Real</CardTitle>
-              <div className="flex gap-2">
-                <Button size="sm">Configurar Alertas</Button>
-                <Button size="sm" variant="outline">Histórico</Button>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {aiAlerts.map((alert, index) => (
-                  <div key={index} className="p-4 border-l-4 border-l-purple-400 bg-purple-50 rounded-lg">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-3">
-                        <h3 className="font-medium">{alert.type}</h3>
-                        <Badge className={getSeverityColor(alert.severity)}>
-                          {alert.severity}
-                        </Badge>
-                        <Badge variant="outline">
-                          Confiança: {alert.confidence}%
-                        </Badge>
-                      </div>
-                      <span className="text-sm text-gray-500">{alert.timestamp}</span>
-                    </div>
-                    <p className="text-sm text-gray-700 mb-2">{alert.description}</p>
-                    <p className="text-sm text-gray-600 mb-3">
-                      <strong>Fonte:</strong> {alert.source}
-                    </p>
-                    <div className="bg-blue-50 p-3 rounded border-l-4 border-l-blue-400">
-                      <p className="text-sm font-medium text-blue-800">Recomendação da IA:</p>
-                      <p className="text-sm text-blue-700">{alert.recommendation}</p>
-                    </div>
-                    <div className="flex gap-2 mt-3">
-                      <Button size="sm" variant="outline">
-                        Investigar
-                      </Button>
-                      <Button size="sm" variant="outline">
-                        Marcar como Resolvido
-                      </Button>
-                      <Button size="sm" variant="outline">
-                        Feedback IA
-                      </Button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="predictions" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Modelos Preditivos Ativos</CardTitle>
-              <Button size="sm">Treinar Novo Modelo</Button>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {predictiveModels.map((model, index) => (
-                  <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
-                    <CardHeader>
-                      <div className="flex items-center justify-between">
-                        <CardTitle className="text-lg">{model.name}</CardTitle>
-                        <Badge className={getStatusColor(model.status)}>
-                          {model.status}
-                        </Badge>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-4">
-                        <div>
-                          <div className="flex justify-between text-sm mb-1">
-                            <span>Precisão</span>
-                            <span>{model.accuracy}%</span>
-                          </div>
-                          <Progress value={model.accuracy} className="h-2" />
-                        </div>
-                        <div className="grid grid-cols-2 gap-4 text-sm">
-                          <div>
-                            <p className="text-gray-600">Tipo</p>
-                            <p className="font-medium">{model.type}</p>
-                          </div>
-                          <div>
-                            <p className="text-gray-600">Previsões</p>
-                            <p className="font-medium">{model.predictions}</p>
-                          </div>
-                        </div>
-                        <div>
-                          <p className="text-gray-600 text-sm">Último Treinamento</p>
-                          <p className="font-medium">{model.lastTrained}</p>
-                        </div>
-                        <div className="flex gap-2">
-                          <Button size="sm" variant="outline" className="flex-1">
-                            Ver Previsões
-                          </Button>
-                          <Button size="sm" variant="outline" className="flex-1">
-                            Retreinar
-                          </Button>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="anomalies" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Detecção de Anomalias</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="h-64 bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center">
-                <div className="text-center">
-                  <Eye className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-gray-600 mb-2">Monitoramento de Anomalias</h3>
-                  <p className="text-sm text-gray-500 mb-4">
-                    IA detecta padrões anômalos em dados ambientais e de sustentabilidade
-                  </p>
-                  <div className="flex justify-center gap-2">
-                    <Badge className="bg-green-100 text-green-800">Normal: 94%</Badge>
-                    <Badge className="bg-yellow-100 text-yellow-800">Anomalias: 6%</Badge>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-sm">Últimas Anomalias</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div className="p-2 bg-red-50 rounded text-sm">
-                    <p className="font-medium">Pico de CO2</p>
-                    <p className="text-xs text-gray-600">14:30 - Sensor A1</p>
-                  </div>
-                  <div className="p-2 bg-yellow-50 rounded text-sm">
-                    <p className="font-medium">Consumo Atípico</p>
-                    <p className="text-xs text-gray-600">12:15 - Energia</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-sm">Configurações</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div>
-                    <label className="text-xs text-gray-600">Sensibilidade</label>
-                    <select className="w-full text-sm p-1 border rounded">
-                      <option>Alta</option>
-                      <option>Média</option>
-                      <option>Baixa</option>
-                    </select>
-                  </div>
-                  <Button size="sm" className="w-full">
-                    Aplicar
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-sm">Estatísticas</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span>Detecções hoje:</span>
-                    <span className="font-medium">23</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Falsos positivos:</span>
-                    <span className="font-medium">2</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Precisão:</span>
-                    <span className="font-medium">91%</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="documents" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Análise Inteligente de Documentos (NLP)</CardTitle>
-              <div className="flex gap-2">
-                <Button size="sm">Upload Documento</Button>
-                <Button size="sm" variant="outline">Configurar NLP</Button>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {documentAnalysis.map((doc, index) => (
-                  <div key={index} className="p-4 border rounded-lg">
-                    <div className="flex items-center justify-between mb-3">
-                      <div>
-                        <h3 className="font-medium">{doc.document}</h3>
-                        <p className="text-sm text-gray-600">{doc.type} • {doc.lastAnalysis}</p>
-                      </div>
-                      <Badge className={getStatusColor(doc.status)}>
-                        {doc.status}
-                      </Badge>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                      <div>
-                        <p className="text-sm text-gray-600">Completude</p>
-                        <div className="flex items-center gap-2 mt-1">
-                          <Progress value={doc.completeness} className="flex-1 h-2" />
-                          <span className="text-sm font-medium">{doc.completeness}%</span>
-                        </div>
-                      </div>
-                      <div className="text-center">
-                        <p className="text-sm text-gray-600">Problemas</p>
-                        <p className="text-xl font-bold text-red-600">{doc.issues}</p>
-                      </div>
-                      <div className="text-center">
-                        <p className="text-sm text-gray-600">Sugestões</p>
-                        <p className="text-xl font-bold text-blue-600">{doc.suggestions}</p>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Button size="sm" variant="outline" className="flex-1">
-                          Ver Análise
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="insights" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Insights Gerados pela IA</CardTitle>
-              <Button size="sm">Gerar Novo Insight</Button>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {insights.map((insight, index) => (
-                  <div key={index} className="p-4 border-l-4 border-l-blue-400 bg-blue-50 rounded-lg">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-medium">{insight.title}</h3>
-                      <div className="flex items-center gap-2">
-                        <Badge variant="outline">{insight.category}</Badge>
-                        <span className={`text-sm font-medium ${getImpactColor(insight.impact)}`}>
-                          {insight.impact}
-                        </span>
-                      </div>
-                    </div>
-                    <p className="text-sm text-gray-700 mb-2">{insight.description}</p>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm text-gray-600">Confiança:</span>
-                        <Progress value={insight.confidence} className="w-20 h-2" />
-                        <span className="text-sm font-medium">{insight.confidence}%</span>
-                      </div>
-                      <div className="flex gap-2">
-                        <Button size="sm" variant="outline">
-                          Explorar
-                        </Button>
-                        <Button size="sm" variant="outline">
-                          Criar Ação
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Insights por Categoria</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Ambiental</span>
-                    <Badge>12</Badge>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Eficiência</span>
-                    <Badge>8</Badge>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Segurança</span>
-                    <Badge>5</Badge>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm">Compliance</span>
-                    <Badge>3</Badge>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Ações Recomendadas</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div className="p-3 bg-green-50 rounded border">
-                    <p className="text-sm font-medium">Otimizar horários de energia</p>
-                    <p className="text-xs text-gray-600">Economia estimada: R$ 12.000/mês</p>
-                  </div>
-                  <div className="p-3 bg-blue-50 rounded border">
-                    <p className="text-sm font-medium">Acelerar coleta ESG</p>
-                    <p className="text-xs text-gray-600">Prazo crítico: 15 dias</p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+        <TabsContent value={activeTab} className="mt-6">
+          {renderTabContent()}
         </TabsContent>
       </Tabs>
     </div>
