@@ -1,10 +1,13 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import GISMapping from './ehs/GISMapping';
+import OpenDataIntegration from './ehs/OpenDataIntegration';
+import PredictiveSimulations from './ehs/PredictiveSimulations';
+import AIAnalytics from './ehs/AIAnalytics';
 import { 
   Shield, 
   AlertTriangle, 
@@ -15,7 +18,11 @@ import {
   CheckCircle,
   Clock,
   Target,
-  BookOpen
+  BookOpen,
+  Map,
+  Database,
+  Brain,
+  Activity
 } from 'lucide-react';
 
 const EHSManagement = () => {
@@ -190,7 +197,7 @@ const EHSManagement = () => {
   return (
     <div className="space-y-6">
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-4 lg:grid-cols-9">
           <TabsTrigger value="incidents" className="flex items-center gap-2">
             <AlertTriangle className="h-4 w-4" />
             Incidentes
@@ -210,6 +217,22 @@ const EHSManagement = () => {
           <TabsTrigger value="metrics" className="flex items-center gap-2">
             <Target className="h-4 w-4" />
             Indicadores
+          </TabsTrigger>
+          <TabsTrigger value="gis" className="flex items-center gap-2">
+            <Map className="h-4 w-4" />
+            GIS
+          </TabsTrigger>
+          <TabsTrigger value="data" className="flex items-center gap-2">
+            <Database className="h-4 w-4" />
+            Dados Abertos
+          </TabsTrigger>
+          <TabsTrigger value="simulations" className="flex items-center gap-2">
+            <Activity className="h-4 w-4" />
+            Simulações
+          </TabsTrigger>
+          <TabsTrigger value="ai" className="flex items-center gap-2">
+            <Brain className="h-4 w-4" />
+            IA Analytics
           </TabsTrigger>
         </TabsList>
 
@@ -581,6 +604,22 @@ const EHSManagement = () => {
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="gis" className="space-y-6">
+          <GISMapping />
+        </TabsContent>
+
+        <TabsContent value="data" className="space-y-6">
+          <OpenDataIntegration />
+        </TabsContent>
+
+        <TabsContent value="simulations" className="space-y-6">
+          <PredictiveSimulations />
+        </TabsContent>
+
+        <TabsContent value="ai" className="space-y-6">
+          <AIAnalytics />
         </TabsContent>
       </Tabs>
     </div>
