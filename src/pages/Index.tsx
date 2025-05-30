@@ -13,6 +13,7 @@ import GISIntegration from '@/components/modules/GISIntegration';
 import RiskManagement from '@/components/modules/RiskManagement';
 import AIInsights from '@/components/modules/AIInsights';
 import AuditInspectionModule from '@/components/modules/AuditInspectionModule';
+import ResourceUsageModule from '@/components/modules/ResourceUsageModule';
 import Navigation from '@/components/layout/Navigation';
 import { Leaf, Shield, TrendingUp, AlertTriangle, CheckCircle, Clock, Activity, Brain } from 'lucide-react';
 
@@ -84,6 +85,8 @@ const Index = () => {
         return <AIInsights />;
       case 'audit-inspection':
         return <AuditInspectionModule />;
+      case 'resource-usage':
+        return <ResourceUsageModule />;
       default:
         return <DashboardOverview />;
     }
@@ -141,6 +144,8 @@ const Index = () => {
               {activeModule === 'gis' && 'Sistema GIS Integrado'}
               {activeModule === 'risk' && 'Gestão de Riscos'}
               {activeModule === 'ai-insights' && 'Insights de IA'}
+              {activeModule === 'audit-inspection' && 'Auditorias e Inspeções'}
+              {activeModule === 'resource-usage' && 'Monitoramento do Uso de Recursos'}
             </CardTitle>
           </CardHeader>
           <CardContent className="p-6">
