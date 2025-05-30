@@ -1,10 +1,15 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import EmissionsCalculation from './esg/EmissionsCalculation';
+import GISVisualization from './esg/GISVisualization';
+import OpenDataIntegration from './esg/OpenDataIntegration';
+import PredictiveModeling from './esg/PredictiveModeling';
+import StakeholderEngagement from './esg/StakeholderEngagement';
+import AIAgent from './esg/AIAgent';
 import { 
   Leaf, 
   Users, 
@@ -15,7 +20,12 @@ import {
   CheckCircle,
   AlertCircle,
   Award,
-  BarChart3
+  BarChart3,
+  Calculator,
+  Map,
+  Database,
+  Brain,
+  MessageSquare
 } from 'lucide-react';
 
 const ESGManagement = () => {
@@ -216,26 +226,34 @@ const ESGManagement = () => {
   return (
     <div className="space-y-6">
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-7">
           <TabsTrigger value="overview" className="flex items-center gap-2">
             <BarChart3 className="h-4 w-4" />
-            Overview ESG
+            Overview
           </TabsTrigger>
-          <TabsTrigger value="environmental" className="flex items-center gap-2">
-            <Leaf className="h-4 w-4" />
-            Ambiental
+          <TabsTrigger value="emissions" className="flex items-center gap-2">
+            <Calculator className="h-4 w-4" />
+            Emissões
           </TabsTrigger>
-          <TabsTrigger value="social" className="flex items-center gap-2">
+          <TabsTrigger value="gis" className="flex items-center gap-2">
+            <Map className="h-4 w-4" />
+            GIS
+          </TabsTrigger>
+          <TabsTrigger value="data" className="flex items-center gap-2">
+            <Database className="h-4 w-4" />
+            Dados
+          </TabsTrigger>
+          <TabsTrigger value="modeling" className="flex items-center gap-2">
+            <TrendingUp className="h-4 w-4" />
+            Simulações
+          </TabsTrigger>
+          <TabsTrigger value="stakeholders" className="flex items-center gap-2">
             <Users className="h-4 w-4" />
-            Social
+            Stakeholders
           </TabsTrigger>
-          <TabsTrigger value="governance" className="flex items-center gap-2">
-            <Building className="h-4 w-4" />
-            Governança
-          </TabsTrigger>
-          <TabsTrigger value="reporting" className="flex items-center gap-2">
-            <FileText className="h-4 w-4" />
-            Relatórios
+          <TabsTrigger value="ai" className="flex items-center gap-2">
+            <Brain className="h-4 w-4" />
+            IA
           </TabsTrigger>
         </TabsList>
 
@@ -336,6 +354,30 @@ const ESGManagement = () => {
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="emissions">
+          <EmissionsCalculation />
+        </TabsContent>
+
+        <TabsContent value="gis">
+          <GISVisualization />
+        </TabsContent>
+
+        <TabsContent value="data">
+          <OpenDataIntegration />
+        </TabsContent>
+
+        <TabsContent value="modeling">
+          <PredictiveModeling />
+        </TabsContent>
+
+        <TabsContent value="stakeholders">
+          <StakeholderEngagement />
+        </TabsContent>
+
+        <TabsContent value="ai">
+          <AIAgent />
         </TabsContent>
 
         <TabsContent value="environmental" className="space-y-6">
