@@ -15,146 +15,243 @@ import {
   CheckCircle,
   XCircle,
   Users,
-  FileText
+  FileText,
+  Map,
+  Brain,
+  Database,
+  BarChart3,
+  Globe,
+  Zap
 } from 'lucide-react';
+import RiskAssessment from './risk-management/RiskAssessment';
+import GISMapping from './risk-management/GISMapping';
+import OpenDataIntegration from './risk-management/OpenDataIntegration';
+import PredictiveSimulations from './risk-management/PredictiveSimulations';
+import MitigationPlanning from './risk-management/MitigationPlanning';
+import AIAnalytics from './risk-management/AIAnalytics';
 
 const RiskManagement = () => {
-  const [activeTab, setActiveTab] = useState('matrix');
+  const [activeTab, setActiveTab] = useState('assessment');
 
+  // Enhanced risk statistics with comprehensive categories
+  const riskStats = [
+    {
+      title: "Riscos Críticos",
+      value: "12",
+      change: "-3 esta semana",
+      icon: AlertTriangle,
+      color: "text-red-600",
+      category: "high"
+    },
+    {
+      title: "Riscos Ambientais",
+      value: "24",
+      change: "+2 identificados",
+      icon: Globe,
+      color: "text-green-600",
+      category: "environmental"
+    },
+    {
+      title: "Riscos de Segurança",
+      value: "8",
+      change: "2 em mitigação",
+      icon: Shield,
+      color: "text-orange-600",
+      category: "safety"
+    },
+    {
+      title: "Score de Risco Global",
+      value: "7.2",
+      change: "-0.8 este mês",
+      icon: TrendingUp,
+      color: "text-blue-600",
+      category: "overall"
+    },
+    {
+      title: "Planos de Mitigação",
+      value: "18",
+      change: "5 concluídos",
+      icon: Target,
+      color: "text-purple-600",
+      category: "mitigation"
+    },
+    {
+      title: "Alertas IA",
+      value: "6",
+      change: "2 novos hoje",
+      icon: Brain,
+      color: "text-indigo-600",
+      category: "ai"
+    }
+  ];
+
+  // Comprehensive risk matrix with enhanced data
   const riskMatrix = [
     {
       id: "R-001",
       name: "Vazamento de Produtos Químicos",
       category: "Ambiental",
+      subcategory: "Contaminação",
       probability: "Média",
       impact: "Alto",
       riskLevel: "Alto",
       status: "Ativo",
       owner: "João Silva",
-      lastReview: "2024-01-10"
+      lastReview: "2024-01-10",
+      location: "Planta São Paulo",
+      geotagged: true,
+      aiScore: 8.5,
+      regulatoryImpact: "CSRD, ISO 14001"
     },
     {
       id: "R-002",
-      name: "Acidente com Equipamentos",
-      category: "Segurança",
-      probability: "Baixa",
+      name: "Mudanças Climáticas - Inundações",
+      category: "Climático",
+      subcategory: "Eventos Extremos",
+      probability: "Alta",
       impact: "Alto",
-      riskLevel: "Médio",
-      status: "Mitigado",
+      riskLevel: "Crítico",
+      status: "Em Análise",
       owner: "Maria Santos",
-      lastReview: "2024-01-08"
+      lastReview: "2024-01-15",
+      location: "Fábrica Campinas",
+      geotagged: true,
+      aiScore: 9.2,
+      regulatoryImpact: "CSRD, ESRS"
     },
     {
       id: "R-003",
       name: "Não Conformidade CSRD",
       category: "Compliance",
+      subcategory: "Regulatório",
+      probability: "Baixa",
+      impact: "Alto",
+      riskLevel: "Médio",
+      status: "Mitigado",
+      owner: "Ana Costa",
+      lastReview: "2024-01-08",
+      location: "Escritório Central",
+      geotagged: false,
+      aiScore: 6.8,
+      regulatoryImpact: "CSRD, GRI"
+    },
+    {
+      id: "R-004",
+      name: "Escassez de Água",
+      category: "Recursos",
+      subcategory: "Hídrico",
       probability: "Alta",
       impact: "Médio",
       riskLevel: "Alto",
       status: "Em Tratamento",
-      owner: "Ana Costa",
-      lastReview: "2024-01-15"
-    },
-    {
-      id: "R-004",
-      name: "Falha no Sistema de Monitoramento",
-      category: "Operacional",
-      probability: "Média",
-      impact: "Médio",
-      riskLevel: "Médio",
-      status: "Ativo",
       owner: "Pedro Lima",
-      lastReview: "2024-01-12"
+      lastReview: "2024-01-12",
+      location: "Planta Nordeste",
+      geotagged: true,
+      aiScore: 7.9,
+      regulatoryImpact: "ISO 14001, Local"
     }
   ];
 
+  // Enhanced mitigation plans with comprehensive tracking
   const mitigationPlans = [
     {
       id: "MP-001",
       riskId: "R-001",
-      action: "Instalação de Sistema de Contenção",
+      action: "Sistema de Contenção Automatizado",
       responsible: "Equipe Manutenção",
       deadline: "2024-02-28",
       progress: 65,
       budget: "R$ 150.000",
-      status: "Em Progresso"
+      status: "Em Progresso",
+      aiRecommended: true,
+      gisIntegrated: true,
+      kpis: ["Tempo de resposta", "Volume contido"],
+      lastUpdate: "2024-01-20"
     },
     {
       id: "MP-002",
-      riskId: "R-003",
-      action: "Treinamento em CSRD/ESRS",
+      riskId: "R-002",
+      action: "Sistema de Alerta Climático",
       responsible: "Equipe ESG",
-      deadline: "2024-02-15",
-      progress: 40,
-      budget: "R$ 25.000",
-      status: "Em Progresso"
+      deadline: "2024-03-15",
+      progress: 30,
+      budget: "R$ 80.000",
+      status: "Iniciado",
+      aiRecommended: true,
+      gisIntegrated: true,
+      kpis: ["Precisão do alerta", "Tempo de evacuação"],
+      lastUpdate: "2024-01-18"
     },
     {
       id: "MP-003",
       riskId: "R-004",
-      action: "Redundância de Sensores IoT",
-      responsible: "TI",
-      deadline: "2024-03-10",
-      progress: 20,
-      budget: "R$ 80.000",
-      status: "Iniciado"
+      action: "Sistema de Reciclagem de Água",
+      responsible: "Equipe Operações",
+      deadline: "2024-04-10",
+      progress: 85,
+      budget: "R$ 200.000",
+      status: "Quase Concluído",
+      aiRecommended: false,
+      gisIntegrated: true,
+      kpis: ["% água reciclada", "Redução consumo"],
+      lastUpdate: "2024-01-22"
     }
   ];
 
-  const incidentLearning = [
+  // AI insights and predictions
+  const aiInsights = [
     {
-      id: "INC-001",
-      date: "2023-12-15",
-      type: "Vazamento Menor",
-      rootCause: "Falha na vedação",
-      lesson: "Inspeções preventivas quinzenais",
-      implementedAction: "Protocolo de Inspeção Atualizado",
-      relatedRisk: "R-001"
+      type: "Predição",
+      message: "Risco de inundação aumentará 15% nos próximos 6 meses",
+      confidence: 87,
+      action: "Revisar planos de contingência",
+      priority: "Alta"
     },
     {
-      id: "INC-002",
-      date: "2023-11-28",
-      type: "Queda de Sistema",
-      rootCause: "Sobrecarga elétrica",
-      lesson: "Backup de energia necessário",
-      implementedAction: "Instalação de UPS",
-      relatedRisk: "R-004"
+      type: "Anomalia",
+      message: "Padrão atípico de emissões detectado na Planta Sul",
+      confidence: 92,
+      action: "Inspeção urgente recomendada",
+      priority: "Crítica"
+    },
+    {
+      type: "Oportunidade",
+      message: "Tecnologia de captura de carbono pode reduzir 40% dos riscos climáticos",
+      confidence: 78,
+      action: "Avaliar viabilidade econômica",
+      priority: "Média"
     }
   ];
 
-  const riskTrends = [
+  // GIS-based risk hotspots
+  const riskHotspots = [
     {
-      category: "Ambiental",
-      currentMonth: 8,
-      lastMonth: 12,
-      trend: "-33%",
-      color: "green"
+      location: "Região Sudeste",
+      riskCount: 8,
+      severity: "Alto",
+      primaryRisk: "Escassez hídrica",
+      coordinates: [-23.5505, -46.6333]
     },
     {
-      category: "Segurança",
-      currentMonth: 5,
-      lastMonth: 6,
-      trend: "-17%",
-      color: "green"
+      location: "Costa Nordeste",
+      riskCount: 5,
+      severity: "Médio",
+      primaryRisk: "Elevação do mar",
+      coordinates: [-8.0476, -34.8770]
     },
     {
-      category: "Compliance",
-      currentMonth: 15,
-      lastMonth: 10,
-      trend: "+50%",
-      color: "red"
-    },
-    {
-      category: "Operacional",
-      currentMonth: 7,
-      lastMonth: 8,
-      trend: "-13%",
-      color: "green"
+      location: "Região Sul",
+      riskCount: 12,
+      severity: "Crítico",
+      primaryRisk: "Eventos climáticos extremos",
+      coordinates: [-30.0346, -51.2177]
     }
   ];
 
   const getRiskLevelColor = (level: string) => {
     switch (level) {
+      case 'Crítico': return 'bg-red-500 text-white';
       case 'Alto': return 'bg-red-100 text-red-800';
       case 'Médio': return 'bg-yellow-100 text-yellow-800';
       case 'Baixo': return 'bg-green-100 text-green-800';
@@ -164,9 +261,9 @@ const RiskManagement = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'Ativo': return 'bg-red-100 text-red-800';
-      case 'Mitigado': case 'Concluído': return 'bg-green-100 text-green-800';
-      case 'Em Tratamento': case 'Em Progresso': return 'bg-yellow-100 text-yellow-800';
+      case 'Ativo': case 'Crítico': return 'bg-red-100 text-red-800';
+      case 'Mitigado': case 'Concluído': case 'Quase Concluído': return 'bg-green-100 text-green-800';
+      case 'Em Tratamento': case 'Em Progresso': case 'Em Análise': return 'bg-yellow-100 text-yellow-800';
       case 'Iniciado': return 'bg-blue-100 text-blue-800';
       default: return 'bg-gray-100 text-gray-800';
     }
@@ -174,341 +271,175 @@ const RiskManagement = () => {
 
   return (
     <div className="space-y-6">
+      {/* Enhanced Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+        {riskStats.map((stat, index) => (
+          <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div className="min-w-0 flex-1">
+                  <p className="text-xs font-medium text-gray-600 mb-1 truncate">
+                    {stat.title}
+                  </p>
+                  <p className="text-xl font-bold text-gray-900">
+                    {stat.value}
+                  </p>
+                  <p className={`text-xs ${stat.change.startsWith('+') && !stat.change.includes('concluídos') ? 'text-red-600' : 'text-green-600'}`}>
+                    {stat.change}
+                  </p>
+                </div>
+                <stat.icon className={`h-6 w-6 ${stat.color} flex-shrink-0`} />
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* AI Insights Panel */}
+      <Card className="border-l-4 border-l-purple-500">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Brain className="h-5 w-5 text-purple-600" />
+            Insights de IA - Análise Preditiva
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {aiInsights.map((insight, index) => (
+              <div key={index} className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg">
+                <div className={`w-2 h-2 rounded-full mt-2 ${
+                  insight.priority === 'Crítica' ? 'bg-red-500' :
+                  insight.priority === 'Alta' ? 'bg-orange-500' : 'bg-yellow-500'
+                }`} />
+                <div className="flex-1">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="font-medium text-sm">{insight.type}</span>
+                    <Badge variant="outline" className="text-xs">
+                      {insight.confidence}% confiança
+                    </Badge>
+                  </div>
+                  <p className="text-sm text-gray-700 mb-2">{insight.message}</p>
+                  <p className="text-xs text-blue-600 font-medium">{insight.action}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* GIS Risk Hotspots */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Map className="h-5 w-5 text-green-600" />
+            Hotspots de Risco - Análise Espacial
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {riskHotspots.map((hotspot, index) => (
+              <div key={index} className="p-4 border rounded-lg hover:bg-gray-50">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="font-medium">{hotspot.location}</h3>
+                  <Badge className={getRiskLevelColor(hotspot.severity)}>
+                    {hotspot.severity}
+                  </Badge>
+                </div>
+                <p className="text-sm text-gray-600 mb-1">
+                  {hotspot.riskCount} riscos identificados
+                </p>
+                <p className="text-xs text-gray-500">
+                  Risco principal: {hotspot.primaryRisk}
+                </p>
+                <Button size="sm" variant="outline" className="mt-2 w-full">
+                  Ver no Mapa GIS
+                </Button>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Enhanced Tabs with comprehensive modules */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-5">
-          <TabsTrigger value="matrix" className="flex items-center gap-2">
+        <TabsList className="grid w-full grid-cols-6">
+          <TabsTrigger value="assessment" className="flex items-center gap-1">
             <AlertTriangle className="h-4 w-4" />
-            Matriz de Riscos
+            <span className="hidden sm:inline">Avaliação</span>
           </TabsTrigger>
-          <TabsTrigger value="mitigation" className="flex items-center gap-2">
+          <TabsTrigger value="gis" className="flex items-center gap-1">
+            <Map className="h-4 w-4" />
+            <span className="hidden sm:inline">GIS</span>
+          </TabsTrigger>
+          <TabsTrigger value="data" className="flex items-center gap-1">
+            <Database className="h-4 w-4" />
+            <span className="hidden sm:inline">Dados Abertos</span>
+          </TabsTrigger>
+          <TabsTrigger value="simulations" className="flex items-center gap-1">
+            <BarChart3 className="h-4 w-4" />
+            <span className="hidden sm:inline">Simulações</span>
+          </TabsTrigger>
+          <TabsTrigger value="mitigation" className="flex items-center gap-1">
             <Shield className="h-4 w-4" />
-            Planos de Mitigação
+            <span className="hidden sm:inline">Mitigação</span>
           </TabsTrigger>
-          <TabsTrigger value="trends" className="flex items-center gap-2">
-            <TrendingUp className="h-4 w-4" />
-            Tendências
-          </TabsTrigger>
-          <TabsTrigger value="learning" className="flex items-center gap-2">
-            <Target className="h-4 w-4" />
-            Aprendizado
-          </TabsTrigger>
-          <TabsTrigger value="assessment" className="flex items-center gap-2">
-            <Activity className="h-4 w-4" />
-            Avaliação
+          <TabsTrigger value="ai" className="flex items-center gap-1">
+            <Brain className="h-4 w-4" />
+            <span className="hidden sm:inline">IA</span>
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="matrix" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <Card className="text-center border-red-200">
-              <CardContent className="p-6">
-                <AlertTriangle className="h-8 w-8 text-red-600 mx-auto mb-2" />
-                <div className="text-2xl font-bold text-red-600">8</div>
-                <p className="text-sm text-gray-600">Riscos Altos</p>
-              </CardContent>
-            </Card>
-            <Card className="text-center border-yellow-200">
-              <CardContent className="p-6">
-                <Clock className="h-8 w-8 text-yellow-600 mx-auto mb-2" />
-                <div className="text-2xl font-bold text-yellow-600">15</div>
-                <p className="text-sm text-gray-600">Riscos Médios</p>
-              </CardContent>
-            </Card>
-            <Card className="text-center border-green-200">
-              <CardContent className="p-6">
-                <CheckCircle className="h-8 w-8 text-green-600 mx-auto mb-2" />
-                <div className="text-2xl font-bold text-green-600">23</div>
-                <p className="text-sm text-gray-600">Riscos Baixos</p>
-              </CardContent>
-            </Card>
-            <Card className="text-center border-blue-200">
-              <CardContent className="p-6">
-                <Shield className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-                <div className="text-2xl font-bold text-blue-600">12</div>
-                <p className="text-sm text-gray-600">Riscos Mitigados</p>
-              </CardContent>
-            </Card>
-          </div>
+        <TabsContent value="assessment" className="space-y-6">
+          <RiskAssessment riskMatrix={riskMatrix} />
+        </TabsContent>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Matriz de Riscos Identificados</CardTitle>
-              <div className="flex gap-2">
-                <Button size="sm">Novo Risco</Button>
-                <Button size="sm" variant="outline">Avaliação em Lote</Button>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="border-b">
-                      <th className="text-left py-2">ID</th>
-                      <th className="text-left py-2">Risco</th>
-                      <th className="text-left py-2">Categoria</th>
-                      <th className="text-left py-2">Probabilidade</th>
-                      <th className="text-left py-2">Impacto</th>
-                      <th className="text-left py-2">Nível</th>
-                      <th className="text-left py-2">Status</th>
-                      <th className="text-left py-2">Responsável</th>
-                      <th className="text-left py-2">Ações</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {riskMatrix.map((risk, index) => (
-                      <tr key={index} className="border-b">
-                        <td className="py-2 font-medium">{risk.id}</td>
-                        <td className="py-2">{risk.name}</td>
-                        <td className="py-2">{risk.category}</td>
-                        <td className="py-2">{risk.probability}</td>
-                        <td className="py-2">{risk.impact}</td>
-                        <td className="py-2">
-                          <Badge className={getRiskLevelColor(risk.riskLevel)}>
-                            {risk.riskLevel}
-                          </Badge>
-                        </td>
-                        <td className="py-2">
-                          <Badge className={getStatusColor(risk.status)}>
-                            {risk.status}
-                          </Badge>
-                        </td>
-                        <td className="py-2">{risk.owner}</td>
-                        <td className="py-2">
-                          <div className="flex gap-1">
-                            <Button size="sm" variant="outline">
-                              Ver
-                            </Button>
-                            <Button size="sm" variant="outline">
-                              Editar
-                            </Button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
+        <TabsContent value="gis" className="space-y-6">
+          <GISMapping riskHotspots={riskHotspots} riskMatrix={riskMatrix} />
+        </TabsContent>
+
+        <TabsContent value="data" className="space-y-6">
+          <OpenDataIntegration />
+        </TabsContent>
+
+        <TabsContent value="simulations" className="space-y-6">
+          <PredictiveSimulations />
         </TabsContent>
 
         <TabsContent value="mitigation" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Planos de Mitigação Ativos</CardTitle>
-              <Button size="sm">Novo Plano</Button>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {mitigationPlans.map((plan, index) => (
-                  <div key={index} className="p-4 border rounded-lg">
-                    <div className="flex items-center justify-between mb-3">
-                      <div>
-                        <h3 className="font-medium">{plan.action}</h3>
-                        <p className="text-sm text-gray-600">Risco: {plan.riskId} • {plan.responsible}</p>
-                      </div>
-                      <Badge className={getStatusColor(plan.status)}>
-                        {plan.status}
-                      </Badge>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div>
-                        <p className="text-sm text-gray-600">Progresso</p>
-                        <div className="flex items-center gap-2 mt-1">
-                          <Progress value={plan.progress} className="flex-1 h-2" />
-                          <span className="text-sm font-medium">{plan.progress}%</span>
-                        </div>
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-600">Prazo</p>
-                        <p className="font-medium">{plan.deadline}</p>
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-600">Orçamento</p>
-                        <p className="font-medium">{plan.budget}</p>
-                      </div>
-                    </div>
-                    <div className="flex gap-2 mt-3">
-                      <Button size="sm" variant="outline">
-                        Ver Detalhes
-                      </Button>
-                      <Button size="sm" variant="outline">
-                        Atualizar Progresso
-                      </Button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+          <MitigationPlanning mitigationPlans={mitigationPlans} />
         </TabsContent>
 
-        <TabsContent value="trends" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {riskTrends.map((trend, index) => (
-              <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
-                <CardHeader>
-                  <CardTitle className="text-lg">{trend.category}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="text-center">
-                      <div className="text-3xl font-bold text-blue-600">{trend.currentMonth}</div>
-                      <p className="text-sm text-gray-600">Riscos Ativos</p>
-                    </div>
-                    <div className={`text-center p-2 rounded ${
-                      trend.color === 'green' ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600'
-                    }`}>
-                      {trend.trend} vs. mês anterior
-                    </div>
-                    <div className="text-center text-sm text-gray-600">
-                      Anterior: {trend.lastMonth}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Análise de Tendências</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="h-64 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center">
-                <div className="text-center">
-                  <TrendingUp className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-gray-600 mb-2">Gráfico de Tendências</h3>
-                  <p className="text-sm text-gray-500">
-                    Evolução dos riscos por categoria nos últimos 12 meses
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="learning" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Aprendizado com Incidentes</CardTitle>
-              <Button size="sm">Adicionar Lição Aprendida</Button>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {incidentLearning.map((incident, index) => (
-                  <div key={index} className="p-4 border-l-4 border-l-blue-400 bg-blue-50 rounded-lg">
-                    <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-medium">{incident.type}</h3>
-                      <span className="text-sm text-gray-600">{incident.date}</span>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                      <div>
-                        <p className="text-gray-600">Causa Raiz</p>
-                        <p className="font-medium">{incident.rootCause}</p>
-                      </div>
-                      <div>
-                        <p className="text-gray-600">Lição Aprendida</p>
-                        <p className="font-medium">{incident.lesson}</p>
-                      </div>
-                    </div>
-                    <div className="mt-3">
-                      <p className="text-gray-600 text-sm">Ação Implementada</p>
-                      <p className="font-medium">{incident.implementedAction}</p>
-                      <Badge className="mt-2" variant="outline">
-                        Risco Relacionado: {incident.relatedRisk}
-                      </Badge>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="assessment" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Nova Avaliação de Risco</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div>
-                    <label className="text-sm font-medium">Nome do Risco</label>
-                    <input 
-                      type="text" 
-                      className="w-full mt-1 p-2 border rounded-md"
-                      placeholder="Ex: Falha no sistema de backup"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium">Categoria</label>
-                    <select className="w-full mt-1 p-2 border rounded-md">
-                      <option>Selecione...</option>
-                      <option>Ambiental</option>
-                      <option>Segurança</option>
-                      <option>Compliance</option>
-                      <option>Operacional</option>
-                    </select>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="text-sm font-medium">Probabilidade</label>
-                      <select className="w-full mt-1 p-2 border rounded-md">
-                        <option>Baixa</option>
-                        <option>Média</option>
-                        <option>Alta</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium">Impacto</label>
-                      <select className="w-full mt-1 p-2 border rounded-md">
-                        <option>Baixo</option>
-                        <option>Médio</option>
-                        <option>Alto</option>
-                      </select>
-                    </div>
-                  </div>
-                  <Button className="w-full">Avaliar Risco</Button>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Matriz de Avaliação</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-4 gap-2 text-xs">
-                  <div></div>
-                  <div className="text-center font-medium">Baixo</div>
-                  <div className="text-center font-medium">Médio</div>
-                  <div className="text-center font-medium">Alto</div>
-                  
-                  <div className="font-medium">Alta</div>
-                  <div className="bg-yellow-200 p-2 text-center rounded">Médio</div>
-                  <div className="bg-red-200 p-2 text-center rounded">Alto</div>
-                  <div className="bg-red-400 p-2 text-center rounded text-white">Crítico</div>
-                  
-                  <div className="font-medium">Média</div>
-                  <div className="bg-green-200 p-2 text-center rounded">Baixo</div>
-                  <div className="bg-yellow-200 p-2 text-center rounded">Médio</div>
-                  <div className="bg-red-200 p-2 text-center rounded">Alto</div>
-                  
-                  <div className="font-medium">Baixa</div>
-                  <div className="bg-green-200 p-2 text-center rounded">Baixo</div>
-                  <div className="bg-green-200 p-2 text-center rounded">Baixo</div>
-                  <div className="bg-yellow-200 p-2 text-center rounded">Médio</div>
-                </div>
-                <div className="mt-4 text-xs text-gray-600">
-                  <p><strong>Impacto:</strong> Horizontal • <strong>Probabilidade:</strong> Vertical</p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+        <TabsContent value="ai" className="space-y-6">
+          <AIAnalytics aiInsights={aiInsights} />
         </TabsContent>
       </Tabs>
+
+      {/* Quick Actions Panel */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Ações Rápidas</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <Button className="h-16 flex-col gap-2">
+              <AlertTriangle className="h-6 w-6" />
+              <span className="text-xs">Novo Risco</span>
+            </Button>
+            <Button variant="outline" className="h-16 flex-col gap-2">
+              <Map className="h-6 w-6" />
+              <span className="text-xs">Análise GIS</span>
+            </Button>
+            <Button variant="outline" className="h-16 flex-col gap-2">
+              <BarChart3 className="h-6 w-6" />
+              <span className="text-xs">Simulação</span>
+            </Button>
+            <Button variant="outline" className="h-16 flex-col gap-2">
+              <FileText className="h-6 w-6" />
+              <span className="text-xs">Relatório</span>
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
