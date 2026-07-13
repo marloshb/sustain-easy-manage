@@ -20,6 +20,20 @@
 
   <body>
     <div id="root"></div>
+    <script>
+      // GitHub Pages SPA restore: decode the ?/... redirect written by 404.html
+      (function () {
+        var l = window.location;
+        if (l.search && l.search.indexOf('?/') === 0) {
+          var decoded = l.search.slice(2).split('&').map(function (s) {
+            return s.replace(/~and~/g, '&');
+          });
+          var path = '/' + decoded.shift();
+          var query = decoded.length ? '?' + decoded.join('&') : '';
+          window.history.replaceState(null, '', l.pathname.replace(/\/$/, '') + path + query + l.hash);
+        }
+      })();
+    </script>
     <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>
